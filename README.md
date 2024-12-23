@@ -57,8 +57,7 @@ The **Real-Time EV Fleet Monitoring and Predictive Analytics Solution** provides
 ### Installation Steps  
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/ezhilezhil/Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution.git
-   cd Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution
+   https://github.com/prabhuleti/Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution.git
    ```
 2. Install dependencies:  
    ```bash
