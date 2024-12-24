@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Behavior & Maintenance Alerts</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #3498db;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin: 10px 0;
+        }
+        header p {
+            margin: 5px 0;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #34495e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #2c3e50;
+        }
+        section {
+            margin: 20px;
+        }
+        .alert-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .alert-card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            width: 48%;
+            min-width: 250px;
+            max-width: 500px;
+        }
+        .alert-card h3 {
+            margin-top: 0;
+            color: #e74c3c;
+        }
+        .alert-card p {
+            font-size: 1em;
+            color: #2c3e50;
+        }
+        .alert-card .button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+        }
+        .alert-card .button:hover {
+            background-color: #c0392b;
+        }
+        .behavior-card {
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .behavior-card h3 {
+            color: #3498db;
+        }
+        .behavior-card table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .behavior-card th, .behavior-card td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .behavior-card th {
+            background-color: #ecf0f1;
+        }
+        footer {
+            text-align: center;
+            background-color: #34495e;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        footer p {
+            margin: 0;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="back-button" onclick="history.back()">Back</button>
+        <h1>Driver Behavior & Maintenance Alerts</h1>
+        <p>Monitor and improve your fleet's performance with detailed behavior analysis and timely maintenance alerts.</p>
+    </header>
+
+    <section class="behavior-analysis">
+        <div class="behavior-card">
+            <h3>Driver Behavior Analysis</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Driver ID</th>
+                        <th>Speed (km/h)</th>
+                        <th>Brake Force</th>
+                        <th>Acceleration</th>
+                        <th>Driving Time (mins)</th>
+                        <th>Alert</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>55</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>30</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>85</td>
+                        <td>4</td>
+                        <td>2</td>
+                        <td>45</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>45</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td>50</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>60</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>60</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>100</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>35</td>
+                        <td>Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+   
+    <!-- Back Button Container -->
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.history.back()">Back</button>
+    </div>
+
+</body>
+</html>
