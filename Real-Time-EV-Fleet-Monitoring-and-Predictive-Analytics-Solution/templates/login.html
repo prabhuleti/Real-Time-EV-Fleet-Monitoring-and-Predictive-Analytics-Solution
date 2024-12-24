@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+
+        .login-container {
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1877f2;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .login-container .forgot-account,
+        .login-container .create-account {
+            margin: 10px 0;
+            color: #1877f2;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .login-container .create-account {
+            background-color: #42b72a;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: left;
+        }
+
+        .testing-note {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="email" placeholder="Email address or phone number" onblur="validateEmail()" onfocus="clearError('email-error')">
+        <p class="error-message" id="email-error"></p>
+        <input type="password" id="password" placeholder="Password" disabled onfocus="validatePassword()" onblur="clearError('password-error')">
+        <p class="error-message" id="password-error"></p>
+        <button onclick="login()">Log In</button>
+        <p class="forgot-account"><a href="forgot_password.html" style="color: #1877f2; text-decoration: none;">Forgotten account?</a></p>
+        <a href="register.html" class="create-account">Create New Account</a>
+        <p class="testing-note">Note: Use username <b>admin</b> and password <b>123</b> for testing purposes.</p>
+    </div>
+
+    <script>
+        const defaultEmail = "admin";
+        const defaultPassword = "123";
+
+        function validateEmail() {
+            const email = document.getElementById("email").value;
+            const emailError = document.getElementById("email-error");
+            const passwordField = document.getElementById("password");
+
+            if (!email) {
+                emailError.innerText = "Please enter your email.";
+                passwordField.disabled = true;
+            } else {
+                emailError.innerText = "";
+                passwordField.disabled = false; // Enable password field if email is filled
+            }
+        }
+
+        function validatePassword() {
+            const password = document.getElementById("password").value;
+            const passwordError = document.getElementById("password-error");
+
+            if (!password) {
+                passwordError.innerText = "Please enter your password.";
+            } else {
+                passwordError.innerText = "";
+            }
+        }
+
+        function clearError(fieldId) {
+            document.getElementById(fieldId).innerText = "";
+        }
+
+        function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const emailError = document.getElementById("email-error");
+            const passwordError = document.getElementById("password-error");
+
+            if (!email) {
+                emailError.innerText = "Please enter your email.";
+                return;
+            }
+
+            if (!password) {
+                passwordError.innerText = "Please enter your password.";
+                return;
+            }
+
+            if (email === defaultEmail && password === defaultPassword) {
+                alert("Login successful!");
+                localStorage.setItem("loggedIn", "true");
+                window.location.href = "histogram.html";
+            } else {
+                alert("Invalid email or password!");
+            }
+        }
+    </script>
+</body>
+</html>

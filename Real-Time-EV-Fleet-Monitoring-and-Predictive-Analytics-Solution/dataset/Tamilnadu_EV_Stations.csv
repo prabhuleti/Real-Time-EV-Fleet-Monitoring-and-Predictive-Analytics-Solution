@@ -1,0 +1,52 @@
+Station Name,Latitude,Longitude,Address,Charging Capacity,Facilities
+Chennai EV Station,13.0827,80.2707,Chennai,Fast Charging,Parking
+Coimbatore Fast Charge,11.0168,76.9558,Coimbatore,Quick Charge,Rest Area
+Madurai EV Hub,9.9252,78.1198,Madurai,Fast Charging,"Parking, Cafe"
+Trichy Quick Charge,10.7905,78.7047,Trichy,Quick Charge,Cafe
+Salem Green Charge,11.6643,78.146,Salem,Fast Charging,Parking
+Erode EV Station,11.341,77.7172,Erode,Standard,Rest Area
+Tirunelveli EV Power,8.7139,77.7567,Tirunelveli,Fast Charging,"Parking, Rest Area"
+Vellore Charging Point,12.9165,79.1325,Vellore,Standard,Cafe
+Tuticorin EV Spot,8.7642,78.1348,Tuticorin,Quick Charge,Parking
+Thanjavur Fast EV,10.7867,79.1371,Thanjavur,Fast Charging,"Rest Area, Cafe"
+Nagercoil Charge Station,8.1728,77.4316,Nagercoil,Fast Charging,Parking
+Kanchipuram Charge Hub,12.8352,79.7042,Kanchipuram,Quick Charge,Cafe
+Tiruvannamalai EV Point,12.2253,79.0747,Tiruvannamalai,Standard,Parking
+Dindigul Quick Charge,10.3673,77.9803,Dindigul,Quick Charge,Rest Area
+Kanyakumari EV Stop,8.0841,77.541,Kanyakumari,Fast Charging,"Parking, Rest Area"
+Namakkal EV Station,11.2352,78.1652,Namakkal,Standard,Cafe
+Karur Charge Point,10.9601,78.0766,Karur,Fast Charging,Parking
+Krishnagiri Fast Charge,12.5198,78.213,Krishnagiri,Fast Charging,Rest Area
+Dharmapuri EV Hub,12.1392,78.1579,Dharmapuri,Standard,"Parking, Cafe"
+Villupuram EV Station,11.9389,79.4931,Villupuram,Quick Charge,Cafe
+Cuddalore Charging Hub,11.7595,79.7551,Cuddalore,Standard,"Parking, Rest Area"
+Pudukkottai EV Station,10.3797,78.8186,Pudukkottai,Fast Charging,Parking
+Perambalur Quick Charge,11.226,78.8706,Perambalur,Quick Charge,Rest Area
+Ariyalur EV Spot,11.14,79.0782,Ariyalur,Fast Charging,"Parking, Cafe"
+Theni EV Point,10.0104,77.482,Theni,Standard,Parking
+Chennai EV Station 1,10.7627,76.5049,Chennai,Fast Charging,Cafe
+Tirunelveli EV Station 2,8.6157,77.2741,Tirunelveli,Standard Charge,"Parking, Cafe"
+Tirunelveli EV Station 3,8.6319,78.4373,Tirunelveli,Standard Charge,Cafe
+Erode EV Station 4,10.8131,76.0683,Erode,Fast Charging,Rest Area
+Tiruvannamalai EV Station 5,10.2541,77.9294,Tiruvannamalai,Fast Charging,Cafe
+Vellore EV Station 6,9.9355,76.898,Vellore,Quick Charge,Rest Area
+Perambalur EV Station 7,10.8519,77.1451,Perambalur,Standard Charge,Rest Area
+Kanchipuram EV Station 8,11.673,79.7598,Kanchipuram,Fast Charging,Cafe
+Karaikkudi EV Station 9,12.7229,79.4697,Karaikkudi,Quick Charge,Rest Area
+Perambalur EV Station 10,8.2816,76.7207,Perambalur,Quick Charge,"Parking, Cafe"
+Tirunelveli EV Station 11,8.3798,76.0955,Tirunelveli,Quick Charge,"Parking, Cafe"
+Karur EV Station 12,12.6857,79.7921,Karur,Standard Charge,"Parking, Cafe"
+Dindigul EV Station 13,8.762,79.019,Dindigul,Quick Charge,Parking
+Ariyalur EV Station 14,10.481,78.65,Ariyalur,Quick Charge,Cafe
+Cuddalore EV Station 15,10.9422,79.3761,Cuddalore,Fast Charging,Parking
+Namakkal EV Station 16,8.7018,79.0586,Namakkal,Fast Charging,Parking
+Nagercoil EV Station 17,8.3028,79.0627,Nagercoil,Fast Charging,Parking
+Coimbatore EV Station 18,11.8026,78.7715,Coimbatore,Standard Charge,"Parking, Cafe"
+Cuddalore EV Station 19,8.9681,76.7543,Cuddalore,Standard Charge,Cafe
+Kanchipuram EV Station 20,9.0451,76.4392,Kanchipuram,Fast Charging,Rest Area
+Tiruvannamalai EV Station 21,8.609,78.7521,Tiruvannamalai,Fast Charging,Parking
+Tiruvannamalai EV Station 22,12.063,76.9724,Tiruvannamalai,Fast Charging,Cafe
+Dharmapuri EV Station 23,10.2259,76.2401,Dharmapuri,Quick Charge,Rest Area
+Tirunelveli EV Station 24,9.0618,79.5757,Tirunelveli,Quick Charge,"Parking, Cafe"
+Kanyakumari EV Station 25,10.7475,77.2068,Kanyakumari,Standard Charge,Parking
+Dharmapuri EV Station 26,9.9463,76.4482,Dharmapuri,Fast Charging,Parking
