@@ -1,35 +1,30 @@
-# Real-Time EV Fleet Monitoring and Predictive Analytics Solution 🚗⚡
+# Real-Time EV Fleet Monitoring and Predictive Analytics Solution 
 
 ## Project Overview  
-The **Real-Time EV Fleet Monitoring and Predictive Analytics Solution** provides a comprehensive platform for managing and optimizing electric vehicle (EV) fleets. This solution leverages advanced technologies to deliver real-time insights into vehicle status, battery health, driver behavior, and predictive maintenance. It empowers fleet managers to make informed decisions, enhancing efficiency, safety, and sustainability.
+This project aims to develop a comprehensive **Real-Time Electric Vehicle (EV) Fleet Monitoring and Predictive Analytics Solution**. The system integrates various features to enhance the efficiency, reliability, and sustainability of EV fleet management by leveraging advanced technologies.This model predicts critical parameters such as battery health and driver behavior, and provides actionable insights to improve fleet performance, reduce costs, and ensure operational safety.
 
 ---
 
 ## Features  
-### 1. **EV Registration and Monitoring**  
-- **Vehicle Registration**: Register and store EV details in the database.  
-- **Real-Time Monitoring**: Track key metrics like speed, location, and battery status in real time.
+### Admin Interface
+1. **User Management**: Manage user accounts and roles.
+2. **Fleet Management**: Register and manage vehicle details.
+3. **System Settings**: Configure system-wide settings and preferences.
 
-### 2. **Battery Health Status**  
-- Monitor battery performance.  
-- Generate alerts for low battery or performance degradation.  
-- Optimize routes based on battery levels and nearby charging stations.
+### User Interface
+1. **Vehicle Registration**: Register new EVs and manage their details.
+2. **Real-Time Monitoring**: Monitor vehicle data such as location, battery health, and operational status.
+3. **Driver Behavior Analysis**: Analyze driving patterns and identify unsafe behaviors.
+4. **Battery Health Monitoring**: Track battery performance and generate alerts for potential issues.
 
-### 3. **Driver Behavior Analysis**  
-- Analyze driver behavior based on acceleration, braking, and speed patterns.  
-- Identify areas for improvement to ensure safety and fuel efficiency.
+### Predictive Analytics Modules
+1. **Route Optimization**: Suggest energy-efficient routes.
+2. **Maintenance Alerts**: Predict maintenance requirements to prevent downtime.
+3. **Cost and Energy Consumption Analysis**: Track operational costs and energy usage for fleet-wide optimization.
 
-### 4. **Maintenance Alerts**  
-- Predict and schedule maintenance using predefined rules.  
-- Receive alerts for potential vehicle issues.
-
-### 5. **Cost and Energy Consumption Analysis**  
-- Visualize energy consumption trends.  
-- Monitor fleet operating costs for optimization opportunities.
-
-### 6. **Report Generation**  
-- Generate customizable reports for performance, cost, and energy usage.  
-- Export reports in multiple formats for sharing and analysis.
+### Report Generation
+- Generate detailed reports on vehicle performance, driver behavior, and fleet operations.
+- Provide data visualizations for actionable insights.
 
 ---
 
@@ -57,7 +52,7 @@ The **Real-Time EV Fleet Monitoring and Predictive Analytics Solution** provides
 ### Installation Steps  
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/ezhilezhil/Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution.git
+   https://github.com/prabhuleti/Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution.git
    cd Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution
    ```
 2. Install dependencies:  
@@ -75,27 +70,74 @@ The **Real-Time EV Fleet Monitoring and Predictive Analytics Solution** provides
 
 ---
 
+## Usage
+
+1. **Admin Panel**:
+   - Log in as an administrator to manage users, vehicles, and system settings.
+
+2. **Register Vehicles**:
+   - Use the Vehicle Registration module to add new EVs to the system.
+
+3. **Monitor Fleet**:
+   - Track vehicle locations and operational metrics in real-time.
+
+4. **Analyze Performance**:
+   - Access predictive analytics for route optimization, battery health, and driver behavior.
+
+5. **Generate Reports**:
+   - Generate and download reports for performance reviews and decision-making.
+
+---
+---
+
 ## Project Structure  
 ```
-Real-Time-EV-Fleet-Monitoring-and-Predictive-Analytics-Solution/
-├── app.py               # Main application script
-├── templates/           # HTML files
-│   ├── index.html       # Dashboard page
-│   ├── vehicle_Registration.html
-│   ├── battery_health.html
-│   └── ...              # Other HTML files
-├── static/              # Static files (CSS, JS, images)
-├── license              # Python dependencies
-├── README.md            # Project documentation
-└── database/            # Database files
+project/
+│
+├── static/
+│   └── styles.css
+│
+├── templates/
+│   ├── Battery_Health_Status_Section.html
+│   ├── Cost_and_Energy_Consumption.html
+│   ├── cost_and_energy_trends.html
+│   ├── Display_Behavior_Analysis_and_Alerts.html
+│   ├── Driver_Behavior_and_Maintenance_Alerts.html
+│   ├── forgot_password.html
+│   ├── histogram.html
+│   ├── index.html
+│   ├── login.html
+│   ├── optimize_route.html
+│   ├── register.html
+│   ├── Report_Generation.html
+│   └── vehicle_registration.html
+│
+├── app.py
+├── battery_health_model.pkl
+├── battery_status_model.py
+├── create_db.py
+├── insert_data.py
+├── LICENSE
+├── README.md
+├── retrieve_data.py
+├── Tamilnadu_EV_Stations.pkl
+├── test_app.py
+└── vehicle_data.db
+
 ```
 
 ---
 
-## Future Enhancements  
-- Integration with AI/ML models for predictive analytics.  
-- Support for multiple languages.  
-- Mobile application for on-the-go access.  
+## Future Enhancements
+
+1. **Integration with Cloud Platforms**:
+   - Host data and analytics on cloud services like AWS or Azure for scalability.
+
+2. **Enhanced Machine Learning Models**:
+   - Improve predictive analytics for more accurate maintenance alerts and battery health predictions.
+
+3. **Mobile Application**:
+   - Develop a mobile app for fleet monitoring on the go.
 
 ---
 
@@ -109,8 +151,9 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## Support
+## Contact
+For any queries or support, please contact:
+- **Name:** Prabhuleti Venkata Ananth
+- **Email:** ananthprabhuleti@gmail.com
 
-If you found this project useful, consider buying me a coffee:
-
-[![Buy Me a Coffee](https://img.shields.io/badge/Support-Buy%20Me%20a%20Coffee-orange?style=for-the-badge&logo=buy-me-a-coffee)](https://buymeacoffee.com/ezhilarasu)
+---
