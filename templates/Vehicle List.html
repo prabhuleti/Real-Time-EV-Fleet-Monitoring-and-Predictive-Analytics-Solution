@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicles List</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            width: 100%;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(120deg, #ff512f, #dd2476);
+        }
+
+        .download-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(120deg, #ff512f, #dd2476);
+        }
+
+        table {
+            width: 100%;
+            margin-top: 80px;
+        }
+
+        thead th {
+            background-color: #13bc85 !important;
+            color: #000 !important;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #e0e0e0;
+        }
+
+        tbody tr:hover {
+            background-color: #d1ffd6;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="{{ url_for('vehicle_registration') }}" class="btn btn-primary back-btn">Back</a>
+
+    <button class="btn btn-success download-btn" id="downloadBtn">Download CSV</button>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Full Vehicle List</h2>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Vehicle Name</th>
+                    <th>Vehicle Model</th>
+                    <th>Registration Number</th>
+                    <th>Battery Health (%)</th>
+                    <th>Status</th>
+                    <th>Timestamp</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="vehicleTableBody">
+                <!-- Vehicle Data Rows inserted dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchVehicles() {
+            try {
+                const response = await fetch('/get_vehicles');
+                const vehicles = await response.json();
+
+                const tableBody = document.querySelector('#vehicleTableBody');
+                tableBody.innerHTML = '';
+
+                vehicles.forEach(vehicle => {
+                    const row = tableBody.insertRow();
+                    row.insertCell(0).textContent = vehicle[1];  // Vehicle Name
+                    row.insertCell(1).textContent = vehicle[2];  // Model
+                    row.insertCell(2).textContent = vehicle[3];  // Registration Number
+                    row.insertCell(3).textContent = vehicle[4];  // Battery Health
+                    row.insertCell(4).textContent = vehicle[5];  // Status
+                    row.insertCell(5).textContent = vehicle[6];  // Timestamp
+
+                    const removeCell = row.insertCell(6);
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove';
+                    removeButton.style.background = 'linear-gradient(12deg, #ff512f, #dd2476)';
+                    removeButton.style.color = 'white';
+                    removeButton.style.border = 'none';
+                    removeButton.style.padding = '8px 16px';
+                    removeButton.style.borderRadius = '5px';
+                    removeButton.style.cursor = 'pointer';
+                    removeButton.onclick = () => removeVehicle(vehicle[0]);
+                    removeCell.appendChild(removeButton);
+                });
+
+            } catch (error) {
+                console.error('Error fetching vehicles:', error);
+            }
+        }
+
+        async function removeVehicle(vehicleId) {
+            if (confirm('Are you sure you want to remove this vehicle?')) {
+                try {
+                    const response = await fetch(`/remove_vehicle/${vehicleId}`, {
+                        method: 'DELETE',
+                    });
+
+                    if (response.ok) {
+                        alert('Vehicle removed successfully!');
+                        fetchVehicles();
+                    } else {
+                        const error = await response.json();
+                        alert(`Error: ${error.error}`);
+                    }
+                } catch (err) {
+                    console.error('Error removing vehicle:', err);
+                    alert('An error occurred while removing the vehicle.');
+                }
+            }
+        }
+
+        document.getElementById('downloadBtn').addEventListener('click', function () {
+            const table = document.querySelector('table');
+            let csvContent = 'Vehicle Name,Vehicle Model,Registration Number,Battery Health,Status,Timestamp\n';
+
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const rowData = Array.from(cells).slice(0, -1).map(cell => {
+                    let text = cell.textContent;
+
+                    // format the timestamp if it's in the timestamp column
+                    if (cell.cellIndex === 5){
+                        const date = new Date(text);
+                        if (!isNaN(date)) {
+                            text = date.toLocaleString(); // Formats to readable date-time
+                        }
+                    }
+
+                    return text;
+                });
+                csvContent += rowData.join(',') + '\n';
+            });
+
+            const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'vehicle_list.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        fetchVehicles();
+    </script>
+
+</body>
+</html>

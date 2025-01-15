@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Fleet Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <button id="menu-toggle" class="btn btn-outline-light">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="vehicle_registration.html">
+                        <div class="icon-circle">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <span class="menu-item">Vehicle Registration</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Battery Health Status Section.html">
+                        <div class="icon-circle">
+                            <i class="fas fa-car-battery"></i>
+                        </div>
+                        <span class="menu-item">Battery Health</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Driver Behavior and Maintenance Alerts.html">
+                        <div class="icon-circle">
+                        <i class="fas fa-users-viewfinder"></i>
+                        </div>
+                        <span class="menu-item">Driver Behavior</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Display Behavior Analysis and Alerts.html">
+                        <div class="icon-circle">
+                        <i class="fas fa-bell"></i>
+                        </div>
+                        <span class="menu-item">Driver Behavior</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Cost and Energy Consumption.html">
+                        <div class="icon-circle">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <span class="menu-item">Cost & Energy</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Report Generation.html">
+                        <div class="icon-circle">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <span class="menu-item">Reports</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+
+            <!-- Logout Button -->
+            <button id="logoutButton" class="btn btn-danger fas fa-sign-out-alt" onclick="logoutAlert()">
+                Logout
+            </button>
+
+            <div class="container-fluid">
+                <h2 class="mt-4 text-center text-white">Welcome to EV Fleet Dashboard</h2>
+                <p class="text-center text-white">Select a menu option to get started.</p>
+
+                <!-- Dashboard Section -->
+                <div class="row dashboard-row">
+                    <div class="col-md-3">
+                        <div class="dashboard-card">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="section-title">Total Fleet Size</h4>
+                                <i class="card-icon fas fa-car-side"></i>
+                            </div>
+                            <p>50 vehicles active</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dashboard-card">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="section-title">Vehicles in Service</h4>
+                                <i class="card-icon fas fa-cogs"></i>
+                            </div>
+                            <p>80% of fleet in service</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dashboard-card">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="section-title">Charging Status</h4>
+                                <i class="card-icon fas fa-plug"></i>
+                            </div>
+                            <p>30% vehicles charging</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dashboard-card">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="section-title">Fleet Efficiency</h4>
+                                <i class="card-icon fas fa-tachometer-alt"></i>
+                            </div>
+                            <p>Avg. efficiency: 5 km/kWh</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Bar Chart (Fleet Efficiency) -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="dashboard-card">
+                            <h4 class="section-title text-center">Fleet Efficiency: Kilometers per kWh</h4>
+                            <canvas id="fleetEfficiencyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Insights (Line Chart and Pie Chart) -->
+                <div class="row dashboard-row">
+                    <div class="col-md-6">
+                        <div class="dashboard-card">
+                            <h4 class="section-title">Battery Health Distribution</h4>
+                            <canvas id="batteryHealthDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script>
+        // Toggle Sidebar
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menu-toggle');
+            
+            menuToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('active');
+            });
+        });
+
+        // Fleet Efficiency Bar Chart (Main Focus)
+        const ctxFleetEfficiency = document.getElementById('fleetEfficiencyChart').getContext('2d');
+        const fleetEfficiencyChart = new Chart(ctxFleetEfficiency, {
+            type: 'bar',
+            data: {
+                labels: ['Vehicle 1', 'Vehicle 2', 'Vehicle 3', 'Vehicle 4', 'Vehicle 5'],
+                datasets: [{
+                    label: 'Kilometers per kWh',
+                    data: [5, 6, 4.5, 5.8, 5.3],
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem){
+                                return 'Efficiency: ' + tooltipItem.raw + ' Km/KWh';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                }
+            }
+        });
+
+        // Battery Health Pie Chart (Battery Distribution)
+        const ctxBatteryHealth = document.getElementById('batteryHealthDistributionChart').getContext('2d');
+        new Chart(ctxBatteryHealth, {
+            type: 'pie',
+            data: {
+                labels: ['Fully Charged', 'Charging', 'Low Battery', 'Critical Battery'],
+                datasets: [{
+                    data: [50, 30, 15, 5],
+                    backgroundColor: ['#00FF7F', '#FF7F32', '#FFD700', '#D2042D'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15
+                        }
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+
+        function logoutAlert() {
+            const logout = confirm('Are you sure you want to logout?');
+            if (logout) {
+                alert('You have successfully logged out!') // success alert
+                window.location.href = '/login';
+            }
+        }
+        
+    </script>
+
+    <style>
+        h2, .text-center{
+            font-family:  'Playfair Display', serif;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            margin: 0;
+            display: flex;
+        }
+
+        .wrapper {
+            display: flex;
+            width: 100%;
+        }
+
+        #sidebar {
+            min-width: 80px;
+            max-width: 80px;
+            background: linear-gradient(135deg, #243B55, #141E30);
+            color: #fff;
+            transition: all 0.3s ease;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+
+        #sidebar.active {
+            min-width: 250px;
+        }
+
+        #sidebar .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0;
+            background: #1c2833;
+        }
+
+        #sidebar ul.components {
+            padding: 20px 0;
+        }
+
+        #sidebar ul li {
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        #sidebar ul li a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            font-family:  'Playfair Display', serif;
+        }
+
+        #sidebar ul li a .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ff512f, #dd2476);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #sidebar ul li a i {
+            font-size: 2em;
+            color: white;
+        }
+
+        #sidebar ul li a .menu-item {
+            display: none;
+        }
+
+        #sidebar ul li a:hover {
+            background-color: #3a4d63;
+            color: #fff;
+        }
+
+        #sidebar.active ul li a .menu-item {
+            display: inline;
+            margin-left: 10px;
+        }
+
+        #content {
+            margin-left: 80px;
+            padding: 20px;
+            transition: margin-left 0.3s;
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #sidebar.active + #content {
+            margin-left: 250px;
+        }
+
+        .dashboard-row {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .dashboard-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-7px);
+            box-shadow:0 15px 35px rgba(17, 146, 215, 0.5),
+            0 5px 15px rgba(0, 183, 194, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            font-weight: bolder;
+            color: #333;
+            text-align: center;
+            font-family:  'Playfair Display', serif;
+        }
+
+        .card-icon {
+            font-size: 2.5em;
+            background: linear-gradient(145deg, #ff512f, #dd2476);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        canvas {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+        }
+
+
+        #logoutButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(120deg, #ff512f, #dd2476);
+            color: white;
+            border: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        #logoutButton:hover {
+            background: linear-gradient(180deg, #ff512f, #dd2476);
+            color: darkslategray;
+        }
+        
+    </style>
+</body>
+</html>

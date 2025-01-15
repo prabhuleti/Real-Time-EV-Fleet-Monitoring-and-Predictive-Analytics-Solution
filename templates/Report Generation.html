@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            box-shadow:0 15px 35px rgba(17, 146, 215, 0.5),
+            0 5px 15px rgba(0, 183, 194, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .table {
+            color: white;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead th {
+            background-color: #13bc85 !important;  /* Darker shade to match the gradient */
+            color: #ffffff;             /* White text for contrast */
+            text-align: center;         /* Center align the text */
+            font-size: 16px;            /* Slightly larger font for emphasis */
+            padding: 12px;              /* Increase padding for better spacing */
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6f61, #ff4081);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff4081, #ff6f61);
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: #546e7a;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #37474f;
+        }
+
+        canvas {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            height: 400px !important;
+        }
+
+        canvas:hover {
+            transform: translateY(-7px);
+            box-shadow:0 15px 35px rgba(17, 146, 215, 0.5),
+            0 5px 15px rgba(0, 183, 194, 0.3);
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h2>Fleet Report</h2>
+            <button class="btn btn-secondary" onclick="window.history.back()">Back</button>
+        </div>
+
+        <!-- Insights Cards -->
+        <div class="row text-center">
+            <div class="col-lg-4 mb-4">
+                <div class="card py-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Vehicles</h5>
+                        <p class="display-4">{{ total_vehicles }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card py-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Battery Health</h5>
+                        <ul class="list-unstyled">
+                            <li>Healthy: <strong>{{ healthy_battery }}</strong></li>
+                            <li>Degrade: <strong>{{ degrade_battery }}</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card py-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Vehicle Status</h5>
+                        <ul class="list-unstyled">
+                            <li>Available: <strong>{{ status_counts['available'] }}</strong></li>
+                            <li>In Service: <strong>{{ status_counts['in_service'] }}</strong></li>
+                            <li>Charging: <strong>{{ status_counts['charging'] }}</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphs Section -->
+        <div class="row mt-5">
+            <div class="col-md-6 mb-5">
+                <canvas id="batteryHealthChart"></canvas>
+            </div>
+            <div class="col-md-6 mb-5">
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Table with Vehicle Data -->
+        <div class="card mt-5">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Vehicle Data</h5>
+                <table class="table table-bordered text-center" id="vehicleTable">
+                    <thead>
+                        <tr>
+                            <th>Vehicle ID</th>
+                            <th>Battery Health</th>
+                            <th>Status</th>
+                            <th>Entry Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vehicle in vehicles %}
+                        <tr>
+                            <td>{{ vehicle.id }}</td>
+                            <td>{{ vehicle.battery_health }}</td>
+                            <td>{{ vehicle.status }}</td>
+                            <td>{{ vehicle.entry_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button id="downloadBtn" class="btn btn-primary mt-4">Download Report as CSV</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Section -->
+    <script>
+        window.onload = function () {
+            const batteryHealthChart = new Chart(document.getElementById('batteryHealthChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Healthy', 'Degrade'],
+                    datasets: [{
+                        data: [{{ healthy_battery }}, {{ degrade_battery }}],
+                        backgroundColor: ['#4CAF50', '#FF7043']
+                    }]
+                },
+                options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.raw + ' vehicles';
+                            }
+                        }
+                    }
+                },
+                // Customize the x and y axis labels color
+                scales: {
+                    x: {
+                        ticks: {
+                            display: false,
+                            color: 'white', // x-axis labels color
+                        }
+                    },
+                    y: {
+                        display: false,
+                        ticks: {
+                            color: 'white', // y-axis labels color
+                        }
+                    }
+                },
+                cutout: '70%',
+            }
+        });
+
+            const statusChart = new Chart(document.getElementById('statusChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Available', 'In Service', 'Charging'],
+                    datasets: [{
+                        data: [{{ status_counts['available'] }}, {{ status_counts['in_service'] }}, {{ status_counts['charging'] }}],
+                        backgroundColor: ['#8BC34A', '#FFEB3B', '#00BCD4']
+                    }]
+                },
+                options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.raw + ' vehicles';
+                            }
+                        }
+                    }
+                },
+                // Customize the x and y axis labels color
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white', // x-axis labels color
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white', // y-axis labels color
+                        }
+                    }
+                }
+            }
+            });
+        };
+    </script>
+</body>
+
+</html>

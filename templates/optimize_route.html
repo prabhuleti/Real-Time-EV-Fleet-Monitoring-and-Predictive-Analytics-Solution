@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimize Route</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #003d4d, #005f73, #0a9396);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #ffffff;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0a9396;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+            color: #005f73;
+        }
+
+        input {
+            width: 100%;
+            margin-top: 6px;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #cce3e6;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #f0fdfa;
+            color: #00474b;
+        }
+
+        input:focus {
+            outline: 2px solid #0a9396;
+            border-color: #0a9396;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 18px;
+            background: linear-gradient(120deg, #ff512f, #dd2476);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(180deg, #ff512f, #dd2476);
+            color: darkslategray;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 12px 0;
+            padding: 15px;
+            border: 1px solid #cce3e6;
+            border-radius: 8px;
+            background-color: #e0f2f1;
+            color: #00474b;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .error {
+            color: #ff5a51;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #0a9396;
+        }
+
+        .back-button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #003d4d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #002b36;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Find EV Stations Near Your Route</h1>
+        <form action="/optimize_route" method="POST">
+            <label for="source_city">Source City:</label>
+            <input type="text" id="source_city" name="source_city" required>
+
+            <label for="dest_city">Destination City:</label>
+            <input type="text" id="dest_city" name="dest_city" required>
+
+            <button type="submit">Find Ways</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if stations %}
+            <h2>Nearby EV Stations</h2>
+            <ul>
+                {% for station in stations %}
+                    <li>
+                        <strong>{{ station.name }}</strong><br>
+                        Address: {{ station.address }}<br>
+                        Capacity: {{ station.capacity }}<br>
+                        Facilities: {{ station.facilities }}<br>
+                        Location: ({{ station.latitude }}, {{ station.longitude }})
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <!-- Back button displayed only if stations exist -->
+            <a href="/histogram.html" class="back-button">Back to Dashboard</a>
+        {% endif %}
+    </div>
+</body>
+</html>

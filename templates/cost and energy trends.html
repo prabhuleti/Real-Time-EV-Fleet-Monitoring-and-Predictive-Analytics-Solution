@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Usage Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1c3a3f, #335c6a, #4c7381);
+        }
+
+        h1 {
+            position: absolute;
+            top: 30px;
+            color: white;
+         
+        }
+        .chart-container {
+            width: 80%;
+            height: 60%;
+            background-color:white;
+        }
+
+
+        .back-button {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(12deg, #ff512f, #dd2476);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(180deg, #ff512f, #dd2476);
+            color: darkslategray
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Explore your data insights and usage trends.</h1>
+
+    <div class="chart-container">
+        <canvas id="energyUsageChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="costsChart"></canvas>
+    </div>
+
+    <script>
+        // Energy Usage Line Chart
+        const energyCtx = document.getElementById('energyUsageChart').getContext('2d');
+        const energyChart = new Chart(energyCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Energy Usage (kWh)',
+                    data: [450, 470, 485, 510, 530, 540, 560, 570, 590, 600, 610, 630],
+                    backgroundColor: 'rgba(0, 200, 255, 0.1)',  /* Light cyan fill */
+                    borderColor: 'rgba(0, 150, 255, 1)',         /* Bold cyan line */
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(0, 150, 255, 1)',
+                    pointBorderColor: '#000',
+                    pointRadius: 6,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Energy Usage Trend (kWh)',
+                        font: {
+                            size: 20
+                        },
+                        color: '#333'  /* Dark text for visibility */
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.dataset.label}: ${context.raw} kWh`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'  /* Light gray grid */
+                        },
+                        ticks: {
+                            color: '#333'  /* Darker x-axis labels */
+                        },
+                        title: {
+                            display: true,
+                            text: 'Month',
+                            color: '#333'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            color: '#333'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Energy Usage (kWh)',
+                            color: '#333'
+                        }
+                    }
+                }
+            }
+        });
+    
+        // Costs Line Chart
+        const costsCtx = document.getElementById('costsChart').getContext('2d');
+        const costsChart = new Chart(costsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Energy Costs (USD)',
+                    data: [1500, 1600, 1550, 1700, 1650, 1750, 1800, 1850, 1900, 2000, 1950, 2100],
+                    backgroundColor: 'rgba(255, 100, 150, 0.1)',  /* Light pink fill */
+                    borderColor: 'rgba(255, 50, 120, 1)',         /* Bold magenta line */
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(255, 50, 120, 1)',
+                    pointBorderColor: '#000',
+                    pointRadius: 6,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Energy Costs Trend (USD)',
+                        font: {
+                            size: 20
+                        },
+                        color: '#333'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.dataset.label}: $${context.raw}`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            color: '#333'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Month',
+                            color: '#333'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            color: '#333'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Energy Costs (USD)',
+                            color: '#333'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    
+    
+    <button class="back-button" onclick="window.history.back();">Back</button>
+</body>
+</html>

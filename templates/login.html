@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #1b1b1b, #333);  /* Dark Gradient */
+        }
+
+        .login-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 40px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            margin-bottom: 24px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .tab-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            background-color: #ddd;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab.active {
+            background: linear-gradient(145deg, #ff512f, #dd2476);  /* Active tab */
+            color: white;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 14px;
+            padding-left: 48px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .input-container i {
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .warning-text {
+            color: red;
+            font-size: 13px;
+            margin-top: 4px;
+            text-align: left;
+            display: none;
+        }
+
+        .login-btn, .signup-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(145deg, #ff512f, #dd2476);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-btn:hover, .signup-btn:hover {
+            background: linear-gradient(145deg, #e8483f, #c91f63);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>Welcome</h2>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <button class="tab active" id="login-tab">Login</button>
+            <button class="tab" id="signup-tab">Signup</button>
+        </div>
+
+        <!-- Login Form -->
+        <form method="POST" action="/login" id="login-form">
+            <div class="input-container">
+                <i class="fas fa-envelope"></i>
+                <input type="text" placeholder="Email Address" name="email" required onblur="validateField(this)">
+                <div class="warning-text" id="email-warning">Email is required</div>
+            </div>
+
+            <div class="input-container">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" name="password" required onblur="validateField(this)">
+                <div class="warning-text" id="password-warning">Password is required</div>
+            </div>
+
+            <button class="login-btn" type="submit">Login</button>
+            <div>
+                <a href="forgot_password.html" style="text-decoration: none; color: #ff512f;">Forgot your password?</a>
+            </div>
+
+            <p>Don't have an account? <a href="#" onclick="switchToSignup()">Signup here</a></p>
+        </form>
+
+        <!-- Signup Form -->
+        <form method="POST" action="/signup" id="signup-form" style="display:none;">
+            <div class="input-container">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Email Address" name="email" required onblur="validateField(this)">
+                <div class="warning-text" id="signup-email-warning">Email is required</div>
+            </div>
+
+            <div class="input-container">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" name="password" required onblur="validateField(this)">
+                <div class="warning-text" id="signup-password-warning">Password is required</div>
+            </div>
+
+            <div class="input-container">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Confirm Password" name="confirm_password" required onblur="validateConfirmPassword()">
+                <div class="warning-text" id="confirm-password-warning">Passwords do not match</div>
+            </div>
+
+            <button class="signup-btn" type="submit">Signup</button>
+        </form>
+    </div>
+
+<script>
+
+    // Tab Switching Logic
+    const loginTab = document.getElementById('login-tab');
+    const signupTab = document.getElementById('signup-tab');
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+
+    loginTab.addEventListener('click', () => toggleTab('login'));
+    signupTab.addEventListener('click', () => toggleTab('signup'));
+
+    function toggleTab(tab) {
+        if (tab === 'login') {
+            loginTab.classList.add('active');
+            signupTab.classList.remove('active');
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+        } else {
+            signupTab.classList.add('active');
+            loginTab.classList.remove('active');
+            signupForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        }
+    }
+
+    // Switch to Signup directly from Login
+    function switchToSignup() {
+        toggleTab('signup');
+    }
+
+    // Real-time Field Validation
+    function validateField(field) {
+        const warning = field.nextElementSibling;
+        if (field.value.trim() === '') {
+            warning.style.display = 'block';
+        } else {
+            warning.style.display = 'none';
+        }
+    }
+
+    // Password Match Validation
+    function validateConfirmPassword() {
+        const password = document.querySelector('#signup-form input[name="password"]').value;
+        const confirmPassword = document.querySelector('#signup-form input[name="confirm_password"]').value;
+        const warning = document.getElementById('confirm-password-warning');
+
+        if (password !== confirmPassword && confirmPassword !== '') {
+            warning.style.display = 'block';
+        } else {
+            warning.style.display = 'none';
+        }
+    }
+
+     // Show alert from Flask messages
+     window.onload = function() {
+            const message = "{{ message }}";
+            const success = "{{ success }}";
+            const redirectUrl = "{{ redirect_url}}";
+            
+            if (message) {
+                alert(message);
+                if (success === 'True' && redirectUrl) {
+                    window.location.href = redirectUrl;
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

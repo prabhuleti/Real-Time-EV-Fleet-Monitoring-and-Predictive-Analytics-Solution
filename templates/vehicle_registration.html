@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Basic styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            padding: 30px;
+            max-width: 800px;
+            margin: 60px auto;
+            background: linear-gradient(135deg, #1c3a3f, #335c6a, #4c7381);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #ffffff;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+        }
+        #registerButton {
+            background: linear-gradient(12deg, #ff512f, #dd2476);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 25px;
+            width: 200px;
+            transition: background 0.3s ease;
+            display: block;
+            margin-top: 15px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #registerButton:hover {
+            background: linear-gradient(180deg, #ff512f, #dd2476);
+            color:darkslategrey;
+        }
+
+        #dashboardButton {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            background: linear-gradient(135deg, #8E2DE2, #4A00E0);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: block;
+            margin-right: auto;
+        }
+
+        #dashboardButton:hover {
+            color: #1c3a3f;
+        }
+
+        #fleetButton {
+            margin-top: -45px;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            background: linear-gradient(135deg, #8E2DE2, #4A00E0);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: block;
+            margin-left: auto;
+        }
+
+        #fleetButton:hover {
+            color: #1c3a3f;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Vehicle Registration</h2>
+        <form id="vehicleForm">
+            <input type="text" id="vehicleName" placeholder="Vehicle Name" required>
+            <input type="text" id="vehicleModel" placeholder="Vehicle Model" required>
+            <input type="text" id="registrationNumber" placeholder="Registration Number" required>
+            <input type="number" id="batteryHealth" placeholder="Battery Health (%)" required>
+            <input type="text" id="status" placeholder="Status" required>
+            <button type="submit" id="registerButton">Register Vehicle</button>
+        </form>
+            
+
+        <button id="dashboardButton" onclick="goToDashboard()">Go to Home</button> 
+        <button id="fleetButton" onclick="goToFleet()">View Fleet</button>
+    </div>
+
+    <script>
+        // Handle form submission and send data to backend
+        document.getElementById('vehicleForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent the form from reloading the page
+        
+            // Get form values
+            const vehicleName = document.getElementById('vehicleName').value.trim();
+            const vehicleModel = document.getElementById('vehicleModel').value.trim();
+            const registrationNumber = document.getElementById('registrationNumber').value.trim();
+            const batteryHealth = document.getElementById('batteryHealth').value.trim();
+            const status = document.getElementById('status').value.trim();
+        
+            // Validate form fields
+            if (!vehicleName || !vehicleModel || !registrationNumber || isNaN(batteryHealth) || !status) {
+                alert('Please fill out all fields correctly.');
+                return;
+            }
+        
+            // Prepare vehicle data object
+            const vehicleData = {
+                vehicle_name: vehicleName,
+                vehicle_model: vehicleModel,
+                registration_number: registrationNumber,
+                battery_health: parseFloat(batteryHealth),
+                status_data: status,
+            };
+        
+            try {
+                // Send the data to the backend API
+                const response = await fetch('/register_vehicle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(vehicleData),
+                });
+        
+                if (response.ok) {
+                    alert('Vehicle registered successfully!');
+                    fetchVehicles(); // Reload vehicle data
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.error}`);
+                }
+            } catch (err) {
+                console.error('Error submitting data:', err);
+                alert('An error occurred while registering the vehicle.');
+            }
+        });
+
+        // Redirect to the dashboard page
+        function goToDashboard() {
+            window.location.href = "{{ url_for('histogram') }}"; 
+        }
+
+        function goToFleet() {
+            window.location.href = "{{ url_for('vehicle_list') }}"; 
+        }
+
+        
+
+        // Call fetchVehicles on page load
+        fetchVehicles();
+    </script>
+</body>
+</html>
